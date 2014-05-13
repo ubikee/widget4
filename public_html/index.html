@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>widget5</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/widget5.css" rel="stylesheet" type="text/css"/>
+        <link rel="import" href="widgets/semaphore.html" tag="w5-semaphore">
+        <link rel="import" href="widgets/textfield.html" tag="w5-textfield">
+    </head>
+    <body>
+<!--
+        <div id="supportCustomElements" class="semaphore">Custom Elements</div>
+        <div id="supportTemplates" class="semaphore">Templates</div>
+        <div id="supportImports" class="semaphore">Imports</div>
+-->
+        <w5-semaphore id="sem1" label="CustomElement1" state="active"></w5-semaphore>
+        <w5-textfield label="LABEL 1" value="V1"></w5-textfield>
+        
+        <!--
+        <script>
+            document.querySelector('#supportCustomElements').classList.toggle('active', supportCustomElements());
+            document.querySelector('#supportTemplates').classList.toggle('active', supportTemplates());
+            document.querySelector('#supportImports').classList.toggle('active', supportImports());
+        </script>
+-->
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<script type="text/javascript" src="../js/libs/widget5/widget5.js"></script>
+
+<template id="w5-semaphore">
+    <style>
+        div {
+            background-color: red;
+        }
+
+        div.active{
+            background-color: greenyellow;
+        }
+    </style>
+    
+    <div id="{{id}}" class="{{state}}">{{label}}</div>
+    
+</template>
+
+<script>
+    CustomElement('w5-semaphore', {
+        created : function () {
+            console.log('xxxxxxxx');
+        }
+    });
+</script>

@@ -1,0 +1,18 @@
+{
+  "name": "widget5",
+  "version": "0.0.0",
+  "authors": [
+    "Ernesto Roldan <jeroldan@atsistemas.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "platform": "~1.0.0"
+  }
+}
