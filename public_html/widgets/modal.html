@@ -1,0 +1,17 @@
+<script type="text/javascript" src="../js/libs/widget5/widget5.js"></script>
+
+<template id="w5-modal">
+    <style>
+        div {
+            border : solid 5px;
+            border-radius: 5px;
+        }
+    </style>
+  <span>{{title}}</span>
+  <div><content></content></div>
+</template>
+
+<script>
+    CustomElement('w5-modal', {
+    });
+</script>

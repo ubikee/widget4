@@ -71,6 +71,7 @@ function parseContent(contentNode, model) {
                 });
             }
         }
+        
     });
 }
 
@@ -89,7 +90,8 @@ function CustomElement(id, elem) {
         var tmpl = link.querySelector('#' + id);
         var content = document.importNode(tmpl.content, true);
         parseContent(content, this.attributes);
-        this.createShadowRoot().appendChild(content);
+        elem.shadowRoot = this.createShadowRoot();
+        elem.shadowRoot.appendChild(content);
         if (elem.created)
             elem.created();
     };
@@ -111,6 +113,10 @@ function CustomElement(id, elem) {
         if (elem[attrName + 'Changed']) {
             elem[attrName + 'Changed'].call(elem, oldVal, newVal);
         }
+    };
+
+    proto.blink = function() {
+        elem.blink();
     };
 
     return document.registerElement(id, {prototype: proto});

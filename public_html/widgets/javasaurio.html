@@ -1,0 +1,71 @@
+<script type="text/javascript" src="../js/libs/widget5/widget5.js"></script>
+
+<template id="w5-javasaurio">
+    <style>
+        div.fold {
+            background-color : black;
+            border-radius: 50%;
+            overflow: hidden;
+            width:{{size}}px;
+            height:{{size}}px;
+        }
+        
+        div.eye {
+            background-color : white;
+            border-radius: 50%;
+            width:{{size}}px;
+            height:{{size}}px;
+        }
+        
+        div.lid {
+            position:relative;
+            top:-100%;
+            background-color : black;
+            width:{{size}}px;
+            height:50%;
+            
+            animation-duration: 3s;
+            animation-name: blink;
+            animation-iteration-count: infinite;
+
+        }
+        
+        div.pupil {
+            position: relative;
+            top : 10%;
+            left : 50%;
+            background-color : black;
+            border-radius: 100% / 100%;
+            width:10px;
+            height:80%;
+        }
+        
+        @keyframes blink {
+            0% {
+              height:0%;
+              animation-timing-function:ease-in-out;
+            }
+
+            100% {
+              height: 100%;
+              animation-timing-function:ease-in-out;
+            }
+          }
+    </style>
+    
+    <div class="fold">
+        <div class="eye">
+            <div class="pupil">P</div>
+            <div class="lid">.</div>
+        </div>
+    </div>
+    
+</template>
+
+<script>
+    CustomElement('w5-javasaurio', {
+        
+        
+        
+    });
+</script>
