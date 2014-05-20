@@ -4,14 +4,19 @@
         <title>widget5</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/widget5.css" rel="stylesheet" type="text/css"/>
+
         <script src="js/libs/platform/platform.js" type="text/javascript"></script>
         <script src="js/libs/widget5/widget5.js" type="text/javascript"></script>
-        <link rel="import" href="widgets/semaphore.html"  tag="w5-semaphore">
-        <link rel="import" href="widgets/textfield.html"  tag="w5-textfield">
-        <link rel="import" href="widgets/modal.html"      tag="w5-modal">
-        <link rel="import" href="widgets/javasaurio.html" tag="w5-javasaurio">
-        <link rel="import" href="widgets/javasaurio2.html" tag="w5-javasaurio2">
+        <script>
+
+            function javasaurioLoaded(event) {
+                console.log(event)
+            }
+
+        </script>
+
+        <link href="css/widget5.css" rel="stylesheet" type="text/css"/>
+        <link rel="import" href="widgets/javasaurio2.html">
 
     </head>
     <body>
@@ -19,13 +24,13 @@
         <div id="supportCustomElements" class="semaphore">Custom Elements</div>
         <div id="supportTemplates" class="semaphore">Templates</div>
         <div id="supportImports" class="semaphore">Imports</div>
-    
-    <button onclick="document.getElementById('saurio2').setAttribute('state','normal')">Normal</button>
-    <button onclick="document.getElementById('saurio2').setAttribute('state','suspecting')">suspecting</button>
-    <button onclick="document.getElementById('saurio2').setAttribute('state','sleeping')">sleeping</button>
-    <button onclick="document.getElementById('saurio2').blink()">Blink</button>
-    
-    <w5-javasaurio2 id="saurio2" size="80%" state="normal"></w5-javasaurio2>
+
+        <button onclick="document.getElementById('saurio2').setAttribute('state', 'normal')">Normal</button>
+        <button onclick="document.getElementById('saurio2').setAttribute('state', 'suspecting')">suspecting</button>
+        <button onclick="document.getElementById('saurio2').setAttribute('state', 'sleeping')">sleeping</button>
+        <button onclick="document.getElementById('saurio2').blink()">Blink</button>
+
+    <w5-javasaurio id="saurio2" size="80%" state="normal"></w5-javasaurio>
 
     <script>
         document.querySelector('#supportCustomElements').classList.toggle('active', supportCustomElements());
