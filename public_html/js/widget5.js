@@ -46,10 +46,7 @@ function CustomElement(src, elem) {
         var link = document.querySelector('link[href$="' + src + '"]').import;
         var tmpl = link.querySelector('template');
         var content = document.importNode(tmpl.content, true);
-		
-		console.time('populate')
 		content.populate(this.attributes);
-		console.timeEnd('populate');
 	
         elem.shadowRoot = this.createShadowRoot();
         elem.shadowRoot.appendChild(content);
@@ -86,37 +83,42 @@ function CustomElement(src, elem) {
     return document.registerElement(tagName, {prototype: proto});
 }
 
-
 Node.prototype.populate = function (model) {
 	
 	var node;
-	var re = /{{[A-Za-z0-9_]*}}/g;  
-	 
+ 
 	var textNodes = document.createTreeWalker(this,NodeFilter.SHOW_TEXT,null,false);
 	while (node = textNodes.nextNode()) {
-		var matches = node.textContent.match(re);
-		if (matches) {
-			matches.forEach( function (match) {
-				var field = match.slice(2, match.length-2);
-                if (model[field]) {
-					var newStr = node.textContent.replace(match, model.getNamedItem(field).value);
-                    node.textContent = newStr;
-				}
-			});
-		}
+		expressionsIn(node.textContent).forEach( function (match) {
+			var field = match.slice(2, match.length-2);
+			var newStr = node.textContent.replace(match, model.getNamedItem(field).value);
+            node.textContent = newStr;
+		});
 	}
     
     var elementNodes = document.createTreeWalker(this,NodeFilter.SHOW_ELEMENT,null,false);
-    while (node = elementNodes.nextNode()) {            
-		for(var i = 0, length = node.attributes.length; i < length; i++) {
-			var attr = node.attributes.item(i);   
-			var matches = attr.value.match(re);
-			if (matches) {
-				matches.forEach( function (match) {
-					var field = match.slice(2, match.length-2);
-					attr.value = model.getNamedItem(field).value;
-				});
-			}
-		}
+    while (node = elementNodes.nextNode()) {
+		attributesIn(node).forEach( function(attribute) {
+			var newValue = attribute.value;
+			expressionsIn(attribute.value).forEach( function (match) {
+				var field = match.slice(2, match.length-2);
+				newValue = newValue.replace(match, model.getNamedItem(field).value);
+			});
+			attribute.value = newValue;
+		});
 	}
+}
+
+function expressionsIn(matchable) {
+	var rexp = /{{[A-Za-z0-9_]*}}/g;
+	var matches = matchable.match(rexp);
+	return matches ? matches : [];
+}
+
+function attributesIn(node) {
+	var attrs = [];
+	for(var i = 0, length = node.attributes.length; i < length; i++) {
+		attrs.push(node.attributes.item(i));
+	}
+	return attrs;
 }
