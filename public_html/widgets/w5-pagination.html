@@ -1,0 +1,78 @@
+<!-- 
+    Document   : pagination widget
+    Author     : jeroldan
+-->
+<polymer-element name="w5-pagination" attributes="pageSize active">
+
+    <template>
+        <style>
+            :host > ul > li > a {
+                cursor : pointer;
+            }
+        </style>
+        <div>
+            <ul class="pagination">
+                <template bind if="{{pages.length > 0}}">
+                <li class="{{disabled : prevDisabled}}"><a on-click="{{paginatePrev}}">&laquo;</a></li>
+                <template repeat="{{page,i in pages}}">
+                <li class="{{ active : page.active }} "><a on-click="{{paginate}}">{{i}}</a></li>
+                </template>
+                <li class="{{disabled : nextDisabled}}"><a on-click="{{paginateNext}}">&raquo;</a></li>
+                </template>
+            </ul>
+            <span style="display: inline; margin: 5px;">
+                <input type="number" min="1" max="15" value="{{pageSize}}" style="width:45px; padding-left:5px;margin:0px; border: solid 1px #EEE; border-radius:3px; height:34px">
+            </span>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-pagination', {
+            pageSize: 0,
+            dataSize: 0,
+            pages: [],
+            active: null,
+            prevDisabled: true,
+            nextDisabled: false,
+            ready : function (ev) {
+                //console.log('w5-pagination ready!')
+            },
+            paginate: function(event, detail, sender) {
+                this.active = parseInt(sender.innerHTML);
+            },
+            paginatePrev: function() {
+                if (!this.prevDisabled) {
+                    this.fire('paginate', {target: this.active - 1});
+                    this.active = this.active - 1;
+                }
+            },
+            paginateNext: function() {
+                if (!this.nextDisabled) {
+                    this.fire('paginate', {target: this.active + 1});
+                    this.active = this.active + 1;
+                }
+            },
+            activeChanged: function(old) {
+                this.pages[old] = {'active': false};
+                this.pages[this.active] = {'active': true};
+                this.prevDisabled = this.active === 0;
+                this.nextDisabled = this.active === this.pages.length - 1;
+                this.fire('paginate', {target: this.active});
+            },
+            dataSizeChanged: function() {
+                this.updatePaginationData();
+            },
+            pageSizeChanged: function() {
+                this.fire('resize');
+                this.updatePaginationData();
+            },
+            updatePaginationData: function() {
+                var ps = Math.floor(this.dataSize / this.pageSize);
+                ps = (this.dataSize % this.pageSize) == 0 ? ps : ps + 1;
+                this.pages = ps <= 1 ? null : new Array(ps);
+                this.active = 0;
+            }
+        });
+    </script>
+    
+</polymer-element>

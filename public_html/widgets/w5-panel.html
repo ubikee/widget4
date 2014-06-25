@@ -1,0 +1,49 @@
+<!-- 
+    Document   : panel
+    Author     : jeroldan
+-->
+<polymer-element name="w5-panel" attributes="name text icon colspan collapsed collapsible">
+
+    <template>
+        <div class="panel panel-default col-lg-{{colspan}}  col-md-{{colspan}}" style="padding:0px">
+            <div class="panel-heading">
+                <span class="glyphicon {{icon}}"></span>
+                <a>{{text}}</a>
+                <template bind if="{{collapsible}}">
+                <span class="pull-right glyphicon glyphicon-{{icon}}" on-click="{{toggle}}"></span> 
+                </template>
+            </div> 
+            <div class="{{hidden:!content}}">
+                <div class="panel-body "><content></content></div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-panel', {
+            name    : "",
+            parent  : "",
+            text    : "",
+            colspan : "12",
+            header  : true,
+            content : true,
+            icon    : 'minus',
+            collapsible : false,
+            ready   : function() {
+
+            },
+            toggle : function () {
+                this.content = !this.content;
+                this.icon = this.icon === 'minus' ? 'plus' : 'minus';
+            },
+            hideHeader : function () {
+                this.shadowRoot.querySelector('.panel-heading').style.display='none';
+            },
+            collapsedChanged : function () {
+                this.toggle();
+            }
+            
+        });
+    </script>
+
+</polymer-element>

@@ -1,0 +1,22 @@
+{
+  "name": "widget5",
+  "version": "0.0.0",
+  "description": "widget5 =======",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ubikee/widget5.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ubikee/widget5/issues"
+  },
+  "dependencies": {
+    "express": "4.4.4",
+    "morgan": "1.1.1"
+  }
+}

@@ -1,0 +1,27 @@
+<!-- 
+    Document   : menu
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-sidebar" attributes="colspan">
+
+    <template>
+        <div class="col-sm-{{colspan}} col-md-{{colspan}} col-lg-{{colspan}} polymer-ui-light-bg">
+            <div class="well affix">
+                <content select="*"></content>
+            </div>    
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-sidebar', {
+
+            colspan : "",
+            
+            ready : function() {
+                // Constructor like
+            }
+        });
+    </script>
+
+</polymer-element>

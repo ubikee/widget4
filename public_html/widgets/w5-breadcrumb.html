@@ -1,0 +1,23 @@
+<!-- 
+    Document   : menu
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-breadcrumb" attributes="colspan">
+    <template>
+            <ol class="breadcrumb">
+                <template repeat="{{item in items}}">
+                    <li class=""><a href="{{item.href}}">{{item.text}}</a></li>
+                </template>
+            </ol>
+        </template>
+        <script>
+            Polymer('w5-breadcrumb', {
+                items : null,
+                ready: function () {
+                    console.log('w5-breadcrumb')
+                    this.items = [].slice.call(this.children);
+                }
+            });
+        </script>
+</polymer-element>

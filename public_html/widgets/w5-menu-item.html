@@ -1,0 +1,51 @@
+<!-- 
+    Document   : button
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+
+<polymer-element name="w5-menu-item" extends="li"  attributes="name text href target icon">
+
+    <template>
+        <style>
+            :host {
+                display     : block;
+                padding-left: 30px;
+                cursor      : pointer;
+            }
+
+            :host:hover { 
+                opacity: 1;
+                background-color: #ddd;
+            }
+
+            a { 
+                color : #716b7a;
+                text-decoration: none;
+            }
+
+            a:hover {
+                color : #716b7a;
+                text-decoration: none;
+            }
+
+        </style>
+        <template bind if="{{href!=null}}"> <a id="{{name}}" href="{{href}}" target="{{target}}"><span class="glyphicon {{icon}}"></span> {{text}}</a></template>
+        <template bind if="{{href==null}}"> <a id="{{name}}" target="{{target}}"><span class="glyphicon {{icon}}"></span> {{text}}</a></template>
+    </template>
+
+    <script>
+        Polymer('w5-menu-item', {
+            name: "",
+            text: "Link",
+            icon: "",
+            href: null,
+            target: "_self", //_self (por defecto misma ventana o vacio), _blank (nueva ventana)
+            class: "",
+            ready: function() {
+                // Constructor like
+            }
+        });
+    </script>
+
+</polymer-element>

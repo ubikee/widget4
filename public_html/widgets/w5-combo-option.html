@@ -1,0 +1,21 @@
+<!-- 
+    Document   : combo-option
+    Author     : jeroldan
+-->
+<polymer-element name="w5-combo-option" attributes="text data">
+
+    <template>
+        <li on-click="{{onClick}}">{{text}}</li>
+    </template>
+
+    <script>
+        Polymer('w5-combo-option', {
+            text : "",
+            data : "",
+            onClick : function () {
+                this.fire('optionSelected', {label : this.text, value : this.data});
+            }
+        });
+    </script>
+
+</polymer-element>

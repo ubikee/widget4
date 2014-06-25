@@ -1,0 +1,65 @@
+<!-- 
+    Document   : menu
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-menu" extends="ul" attributes="name text icon">
+
+    <template>
+        <style>
+
+            :host {
+                display    : block;
+                cursor     : pointer;
+            }
+
+            :host > w5-menu {
+                display : none;
+            }
+
+            :host.active > w5-menu {
+                display      : block;
+                padding-left : 30px;
+                font-size    : smaller;
+                text-shadow  : 0 1px 0 #fff;
+            }
+
+            :host > w5-menu-item.menu-header:first-child {
+                display:  block;
+                padding-left : 0px;
+            }
+
+            :host > w5-menu-item {
+                display: none;
+            }
+
+            :host.active > w5-menu-item {
+                display : block;
+                font-size: 90%;
+            }
+
+            :host.active > w5-menu-item.menu-header:first-child {
+                font-weight: bold;
+                font-size: inherit;
+            }
+
+        </style>
+        <w5-menu-item class="menu-header" text="{{text}}" on-click="{{toggle}}"></w5-menu-item>
+        <content></content>
+    </template>
+
+    <script>
+        Polymer('w5-menu', {
+            name: "",
+            text: "",
+            icon: "",
+            ready: function() {
+                this.classList.add('nav');
+            },
+            toggle: function() {
+                this.classList.contains('active') ? this.classList.remove('active') : this.classList.add('active')
+            }
+        });
+    </script>
+
+</polymer-element>

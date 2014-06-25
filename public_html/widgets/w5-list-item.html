@@ -1,0 +1,25 @@
+<!-- 
+    Document   : list-item
+    Author     : jeroldan
+-->
+<polymer-element name="w5-list-item" attributes="text value active">
+    <template>
+        <h4 class="list-group-item-heading">{{text}}<span class="badge pull-right">{{value}}</span></h4>
+        <p class="list-group-item-text"><content></content></p>
+    </template>
+    <script>
+        Polymer('w5-list-item', {
+            active: false,
+            ready: function() {
+                this.classList.add("list-group-item");
+            },
+            activeChanged: function() {
+                if (this.active) {
+                    this.classList.add("active");
+                } else {
+                    this.classList.remove("active");
+                }
+            }
+        });
+    </script>
+</polymer-element>

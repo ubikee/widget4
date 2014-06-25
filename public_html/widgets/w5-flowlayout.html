@@ -1,0 +1,20 @@
+<link rel="import" href="../js/polymer.html">
+
+<polymer-element name="w5-flowlayout" attributes="orientation colspan">
+
+    <template>
+        <div class="container col-lg-{{colspan}}">
+            <div class="row" style="border:solid 1px">
+                <content></content>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-flowlayout', {
+            function ready() {
+                
+            }
+        });
+    </script>
+</polymer-element>

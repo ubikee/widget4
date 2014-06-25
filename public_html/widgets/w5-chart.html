@@ -1,0 +1,55 @@
+<!-- 
+    Document   : chart
+    Created on : Nov 5, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-chart" attributes="name kind labels points" >
+
+    <template>
+        <canvas id="chart" data-type="{{kind}}" width="550" height="180"></canvas>
+    </template>
+
+    <script>
+Polymer('w5-chart', {
+    points: "",
+    data: null,
+    kind: "Line",
+    labels: "a,b,c,d,e,f",
+    
+    enteredView: function() {
+        this.$.chart.width = Math.max(this.offsetWidth, 100);
+        this.$.chart.height = Math.max(this.offsetHeight, 100);
+        this.ctx = this.$.chart.getContext('2d');
+    },
+
+    pointsChanged: function() {
+        var p = this.points.split(',').reduce(
+                function(previousValue, currentValue, i, a) {
+                    previousValue.push(parseFloat(currentValue));
+                    return previousValue;
+                }, []);
+
+        var labels = this.labels.split(',').reduce(
+                function(previousValue, currentValue, i, a) {
+                    previousValue.push(currentValue);
+                    return previousValue;
+                }, []);
+
+        this.data = {
+            labels: labels,
+            datasets: [
+                {
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    data: p
+                }
+            ]
+        }
+
+        var chart = new Chart(this.ctx)[this.kind](this.data);
+    }
+});
+    </script>
+</polymer-element>

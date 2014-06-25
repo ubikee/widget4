@@ -1,0 +1,86 @@
+<!--
+    http://dl.dropboxusercontent.com/u/21368/bootstrap-combobox/index.html
+-->
+<link rel="import" href="./w5-combo-option.html">
+<polymer-element name="w5-combo" attributes="name label required tabindex">
+
+    <template>
+        <style>
+            #combo {
+                display : none;
+                margin-left : 15px;
+            }
+
+            #combo.active {
+                display : block;
+            }
+
+            #combo.active  li:hover{
+                background-color : #AAA;
+            }
+        </style>
+        <div class="form-group">
+            <label id="label" for="box" class="col-md-{{labelWidth}} control-label">{{label}}</label>
+            <div class="col-md-{{fieldWidth}} input-group" id="{{name}}">
+                <input id="box" type="text" class="form-control input-sm" placeholder="{{placeholder}}" value="{{text}}" tabindex="{{tabindex}}" on-keyup="{{onKeyPressed}}">
+                <input type="hidden" name="{{name}}" value="{{value}}">
+                <span class="input-group-addon" on-click="{{toggleCombo}}"><i class="caret"></i></span>
+                <ul id="combo" class="dropdown-menu col-md-{{fieldWidth}}">
+                    <content select="w5-combo-option"></content>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-combo', {
+            label: "",
+            required: "false",
+            placeholder: "Enter Text",
+            tabindex: "",
+            text: "",
+            value: "",
+            labelWidth: "0",
+            fieldWidth: "12",
+            items: [],
+            enteredView: function() {
+                this.items = [].slice.call(this.children);
+                var _this = this;
+                this.items.map(function(item) {
+                    item.addEventListener('optionSelected', function(e) {
+                        _this.optionSelected(e)
+                    });
+                });
+            },
+            labelChanged: function() {
+                this.$.label.hidden = false;
+                this.labelWidth = 3;
+                this.fieldWidth = 9;
+            },
+            requiredChanged: function() {
+                this.$.label.innerHTML = "* " + this.$.label.innerHTML;
+            },
+            toggleCombo: function() {
+                if (this.$.combo.classList.contains('active'))
+                    this.$.combo.classList.remove('active');
+                else
+                    this.$.combo.classList.add('active');
+            },
+            optionSelected: function(event) {
+                this.text = event.detail.label;
+                this.value = event.detail.value;
+                this.toggleCombo();
+            },
+            onKeyPressed: function() {
+                this.$.combo.classList.add('active');
+                var _query = this.text;
+                this.items.map(function(item) {
+                    if (item.text.toLowerCase().indexOf(_query.toLowerCase()) == -1)
+                        item.classList.add('hidden')
+                    else
+                        item.classList.remove('hidden')
+                })
+            }
+        });
+    </script>
+</polymer-element>

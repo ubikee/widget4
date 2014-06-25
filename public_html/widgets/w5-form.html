@@ -1,0 +1,32 @@
+<!-- 
+    Document   : form
+    Author     : jeroldan
+-->
+<polymer-element name="w5-form" attributes="name legend action colspan">
+    <template>
+        <div class="col-lg-{{colspan}}" style="margin : 5px;">
+            <div class="well">
+                <form class="form-horizontal" action="{{action}}">
+                    <fieldset>
+                        <template bind if="{{legend}}">
+                        <legend>{{legend}}</legend>
+                        </template>
+                        <content></content>
+                        <button type="submit" class="btn btn-sm btn-default pull-right">OK</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer('w5-form', {
+            name: "",
+            action: null,
+            legend: null,
+            colspan: "12",
+            ready: function() {
+                // Constructor like
+            }
+        });
+    </script>
+</polymer-element>

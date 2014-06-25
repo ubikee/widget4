@@ -1,0 +1,99 @@
+<link rel="import" href="./w5-pagination.html">
+<polymer-element name="w5-table" attributes="name caption height headers columns data pageSize">
+    <template>
+        <div id="{{name}}" class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed table-hover">
+                <caption>{{caption}}</caption>
+                <thead>
+                    <tr>
+                        <th template repeat="{{header in headers}}" colspan="{{header.colspan}}" style="text-align: center">{{header.title}}</th>
+                    </tr>
+                    <tr>
+                        <th template repeat="{{col in columns}}" class="col-sm-{{col.width}} col-md-{{col.width}} col-lg-{{col.width}} {{active : active==col.key}}">
+                            {{col.title}}<template bind if="{{col.sorter}}"><a rel="{{col.key}}" on-click="{{onOrder}}"><span class="pull-right glyphicon glyphicon-chevron-down" style="cursor:pointer"></span></a></template>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr template repeat="{{row,i in pageData}}" on-click="onRowClick">
+                        <td template repeat="{{col in columns}}">
+                            <template bind if="{{col.renderer==null}}">{{row[col.key]}}</template>
+                            <template bind if="{{col.renderer=='button'}}"><input type='button'></template>
+                            <template bind if="{{col.renderer=='checkbox'}}"><input type='checkbox'></template>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="{{columns.length}}">
+                            <w5-pagination id="pagination" class="pull-right" on-paginate="{{onPaginate}}" on-resize="{{onResizePage}}"></w5-pagination>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-table', {
+            name: "",
+            caption: "Table Title",
+            height: "100px",
+            columns: [],
+            data: [],
+            page: 0,
+            pageSize: 10,
+            pageData: [],
+            pages: null,
+            active: '',
+            ready: function() {
+            },
+            enteredView: function() {
+                this.items = [].slice.call(this.children);
+                var _columns = this.columns
+                this.items.map(function(item) {
+                    if (item.nodeName === "W5-COLUMN")
+                        _columns.push({'id': item.id, 'title': item.text, 'key': item.key, 'width': '', 'colspan': '', 'sorter': 'default'})
+                });
+            },
+            updatePageData: function() {
+                var a = this.page * this.pageSize;
+                this.pageData = this.data.slice(a, a + this.pageSize);
+            },
+            dataChanged: function() {
+                this.updatePageData();
+                this.$.pagination.dataSize = this.data.length;
+                this.$.pagination.pageSize = this.pageSize;
+            },
+            pageChanged: function() {
+                this.updatePageData();
+            },
+            onRowClick: function(e) {
+                this.fire('rowClick', {msg: 'row click'});
+            },
+            onPaginate: function(e) {
+                this.page = e.detail.target;
+            },
+            onResizePage : function(e,details,sender) {
+                this.pageSize = sender.pageSize
+                this.page=0
+                this.updatePageData();
+            },
+            onOrder: function(e, detail, sender) {
+                this.data.sort(function(a, b) {
+                    if (a[sender.rel] < b[sender.rel])
+                        return -1;
+                    if (a[sender.rel] > b[sender.rel])
+                        return 1;
+                    return 0;
+                });
+                // must refactor!!!
+                this.updatePageData();
+                this.page = 0;
+                this.$.pagination.active = 0;
+                this.active = sender.rel;
+            }
+        });
+    </script>
+
+</polymer-element>

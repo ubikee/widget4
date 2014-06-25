@@ -1,0 +1,42 @@
+<!-- 
+    Document   : menu
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-toolbar" attributes="name">
+
+    <template>
+        <div class="btn-toolbar">
+            <div class="btn-group btn-group">
+                <template repeat="{{item in items}}">
+                    <button type="button" class="btn btn-default">{{item.text}}</button>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-toolbar', {
+            name        : "",
+            text        : "",
+            icon        : "",
+            collapsible : false,
+            vertical    : false,
+            
+            items       : [],
+            
+            ready : function() {
+                this.items = [].slice.call(this.children);
+            },
+            verticalChanged : function() {
+                var menu = this.shadowRoot.querySelector('.nav');
+                if (this.vertical) {
+                    menu.classList.add("nav-stacked");
+                } else {
+                     menu.classList.remove("nav-stacked");
+                }
+            }
+        });
+    </script>
+
+</polymer-element>

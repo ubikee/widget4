@@ -1,0 +1,45 @@
+<!-- 
+    Document   : navbar
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<polymer-element name="w5-navbar" attributes="brand logo">
+
+    <template>
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="{{logo}}"/> 
+                    {{brand}}
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <template repeat="{{item in items}}">
+                        <li><a href="downloads.html">{{item.text}}</a></li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-navbar', {
+            brand: "",
+            logo: "",
+            items: [],
+            ready: function() {
+                this.items = [].slice.call(this.children);
+            },
+            created: function() {
+                // Constructor like
+            }
+        });
+    </script>
+
+</polymer-element>

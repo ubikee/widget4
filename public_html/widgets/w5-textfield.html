@@ -1,0 +1,106 @@
+<polymer-element name="w5-textfield" attributes="value state label placeholder validator colspan required tabindex name">   
+    <template>
+
+        <div id="textfield" class="form-group">
+            <label id="label" for="box" class="col-md-{{labelWidth}} control-label">{{label}}</label>
+            <template bind if="{{state!='info'}}">
+                <div class="col-md-{{fieldWidth}}">
+                    <input name="{{name}}" type="text" id="box" class="form-control input-sm" placeholder="{{placeholder}}" value="{{value}}" tabindex="{{tabindex}}">
+                </div>
+            </template>
+            <template bind if="{{state=='info'}}">
+                <div class="col-md-{{fieldWidth}}">
+                    <p class="form-control-static">{{value}}</p>
+                </div>
+            </template>
+        </div>
+    </template>
+    
+    <script>
+        Polymer('w5-textfield',{
+            
+            value : "",
+            state : "normal", // normal | disabled | info | hidden
+            label : "",
+            placeholder : "Enter text",
+            validator : "",
+            colspan : "12",
+            required : "false",
+            tabindex : "",
+            
+            labelWidth : "0",
+            fieldWidth : "12",
+            valid : true,
+            
+            ready : function() {
+                this.classList.add("col-md-"+this.colspan);
+                if (this.label == "")
+                    this.shadowRoot.querySelector(".control-label").classList.add('hide')
+            },
+            valueChanged : function () {
+                if (validators && this.validator && validators[this.validator]) {
+                    this.valid = validators[this.validator](this.value);
+                    var field = this.shadowRoot.querySelector('.form-group');
+                    switch (valid) {
+                        case "success" : 
+                            field.classList.add("has-success");
+                            field.classList.remove("has-warning");
+                            field.classList.remove("has-error");
+                            break;
+                        case "warning" : 
+                            field.classList.add("has-warning");
+                            field.classList.remove("has-success");
+                            field.classList.remove("has-error");
+                            break;
+                        case "error": 
+                            field.classList.add("has-error");
+                            field.classList.remove("has-warning");
+                            field.classList.remove("has-success");
+                            break;
+                        case true : 
+                            field.classList.remove("has-success");
+                            field.classList.remove("has-warning");
+                            field.classList.remove("has-error");
+                            break;
+                        case false : 
+                            field.classList.add("has-error");
+                            field.classList.remove("has-warning");
+                            field.classList.remove("has-success");
+                            break;
+                    }
+                }
+            },
+            labelChanged : function () {
+                this.$.label.class = "show";
+                this.labelWidth = 3;
+                this.fieldWidth = 9;
+            },
+            requiredChanged : function () {
+                this.$.label.innerHTML = "* " + this.$.label.innerHTML;
+            },
+            stateChanged : function () {
+                var field = this.shadowRoot.querySelector('.form-group')
+                var box = this.shadowRoot.querySelector('input');
+                switch(this.state) {
+                    case "normal" :
+                        field.hidden = false;
+                        box.disabled = false;
+                        box.classList.remove("form-control-info");
+                        break;
+                    case "disabled" :
+                        field.hidden = false;
+                        box.disabled = true;
+                        break;
+                 /*   case "info" :
+                        field.hidden = false;
+                        box.disabled = true;
+                        box.classList.add("form-control-info");
+                        break;*/
+                    case "hidden" : 
+                        field.hidden = true;
+                        break;
+                }
+            }
+        });
+   </script>
+</polymer-element>

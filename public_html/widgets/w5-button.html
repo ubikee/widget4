@@ -1,0 +1,56 @@
+<!-- 
+    Document   : button
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+<link rel="import" href="../js/polymer.html">
+
+<polymer-element name="w5-button" attributes="text icon state action tabindex">
+
+    <template>
+        <button id="button" type="{{type}}" class="btn btn-default btn-sm" on-click="{{onClick}}" tabindex="{{tabindex}}">
+            <template bind if="{{icon != ''}}">
+                <span class="glyphicon {{icon}}"></span>
+            </template>
+            {{text}}
+        </button> 
+    </template>
+    
+    <script>
+        Polymer('w5-button',{
+            
+            text     : "",
+            icon     : "",
+            state    : "normal", // normal | disabled | hidden
+            action   : null,
+            tabindex : "",
+            type     : "button",
+            
+            onClick : function () {
+                actions[this.action]();
+            },
+            
+            actionChanged : function () {
+                if (this.action == 'submit')
+                    this.type="submit";
+            },
+                    
+            stateChanged : function () {        
+                switch(this.state) {
+                    case "normal" :
+                        this.$.button.hidden = false;
+                        this.$.button.disabled = false;
+                        break;
+                    case "disabled" :
+                        this.$.button.hidden = false;
+                        this.$.button.disabled = true;
+                        break;
+                    case "hidden" : 
+                        this.$.button.hidden = true;
+                        break;
+                }
+            }
+        });
+    </script>
+
+</polymer-element>

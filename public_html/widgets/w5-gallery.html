@@ -1,0 +1,75 @@
+<link rel="import" href="./w5-pagination.html">
+<polymer-element name="w5-gallery" attributes="name colspan columns rows">
+    <template>
+        <div class="well col-sm-{{colspan}} col-md-{{colspan}} col-lg-{{colspan}}">
+            <div class="row">
+                <template repeat="{{item in pageItems}}">
+                    <a href="{{item.href}}">
+                        <div class="col-sm-{{itemColspan}} col-md-{{itemColspan}} col-lg-{{itemColspan}}">
+                            <div class="thumbnail">
+                                <img src="{{item.img}}" alt="...">
+                                <div class="caption center-block">
+                                    <h3 style="text-align:center">{{item.label}}</h3>
+                                    <p>{{item.text}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </template>
+
+            </div>
+            <div class="row">
+                <w5-pagination id="pagination" class="pull-right" on-paginate="{{onPaginate}}"></w5-pagination>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-gallery', {
+            name: "",
+            colspan: "12",
+            columns: 6,
+            rows: 2,
+            items: [],
+            itemColspan: 2,
+            page: 0,
+            pageSize: 6,
+            pageItems: [],
+            enteredView: function() {
+                this.items = [].slice.call(this.children);
+                this.updatePageData();
+                this.$.pagination.dataSize = this.items.length;
+                this.$.pagination.pageSize = this.pageSize;
+            },
+            pageChanged: function() {
+                this.updatePageData();
+            },
+            pageSizeChanged: function() {
+                console.log(this.pageSize);
+                this.updatePageData();
+            },
+            onPaginate: function(e) {
+                this.page = e.detail.target;
+            },
+            updatePageData: function() {
+                var a = this.page * this.pageSize;
+                this.pageItems = this.items.slice(a, a + this.pageSize);
+            },
+            columnsChanged: function() {
+                if (this.columns == 1) {
+                    this.itemColspan = 12;
+                } else {
+                    this.itemColspan = Math.floor(12 / this.columns);
+                }
+                this.pageSize = this.columns * this.rows;
+                this.$.pagination.pageSize = this.pageSize;
+
+            },
+            rowsChanged: function() {
+                this.pageSize = this.columns * this.rows;
+                this.$.pagination.pageSize = this.pageSize;
+            }
+        });
+    </script>
+
+</polymer-element>

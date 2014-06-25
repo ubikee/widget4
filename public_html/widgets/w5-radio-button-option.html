@@ -1,0 +1,38 @@
+<polymer-element name="w5-radio-button-option" attributes="name value state text checked tabindex">
+
+    <template>
+        <div class="input-group" state="{{state}}">
+            <span class="input-group-addon">
+                <input type="radio" id="{{name}}" name="{{name}}" value="{{value}}" checked="{{checked}}" tabindex="{{tabindex}}">
+            </span>
+            <label for="{{name}}" class="form-control">{{text}}</label>
+        </div>
+    </template>
+ 
+    <script>
+        Polymer('w5-radio-button-option',{
+            
+            id        : "",
+            name      : "",    
+            value     : "",
+            state     : "normal", // normal | disabled
+            text     : "",
+            checked   : "",  // vacio | checked
+            tabindex  : "",
+            
+            created : function() {
+            },
+            stateChanged : function () {
+                var input = this.shadowRoot.querySelector('input');
+                switch(this.state) {
+                    case "normal" :
+                        input.disabled = false;
+                        break;
+                    case "disabled" :
+                        input.disabled = true;
+                        break;
+                }
+            }
+        });
+    </script>
+</polymer-element>

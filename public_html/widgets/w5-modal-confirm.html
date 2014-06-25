@@ -1,0 +1,39 @@
+<!-- 
+    Document   : modal-confirm
+    Author     : jeroldan
+-->
+<polymer-element name="w5-modal-confirm" extends="w5-modal" attributes="name okAction cancelAction">
+
+    <template>
+        <w5-modal id="modal" text="{{text}}">
+            <content></content>
+            <button type="button" class="btn btn-default" on-click="{{cancel}}">Cancel</button>
+            <button type="button" class="btn btn-primary" on-click="{{ok}}">OK</button>
+        </w5-modal>
+    </template>
+
+    <script>
+        Polymer('w5-modal-confirm', {
+            
+            okAction : null,
+            cancelAction : null,
+            
+            open: function() {
+                this.$.modal.open();
+            },
+            cancel: function() {
+                this.fire('cancel');
+                if (this.cancelAction != null) 
+                    actions[this.cancelAction]();
+                this.$.modal.close();
+            },
+            ok: function() {
+                this.fire('ok');
+                if (this.okAction != null) 
+                    actions[this.okAction]();
+                this.$.modal.close();
+            }
+        });
+    </script>
+
+</polymer-element>

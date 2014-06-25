@@ -1,0 +1,59 @@
+<!-- 
+    Document   : date picker
+    Author     : jeroldan
+-->
+<polymer-element name="w5-date-picker" attributes="colspan label name format state startDate">
+    
+    <template>   
+        <div class="form-group ">
+            <label id="label" for="box" class="col-md-{{labelWidth}} control-label">{{label}}</label>
+            <template bind if="{{state!='info'}}">                
+            <div class="col-md-{{fieldWidth}} input-group date" id="{{name}}">
+                <input id="box" name="{{name}}" type="text" class="form-control" placeholder="{{placeholder}}" value="{{value}}" tabindex="{{tabindex}}">
+                <span class="input-group-addon" on-click="{{showCalendar}}"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+            </template>
+            <template bind if="{{state=='info'}}">
+            <div class="col-md-{{fieldWidth}}">
+                <p class="form-control-static">{{value}}</p>
+            </div>
+            </template>
+            <w5-calendar id="calendar" text="{{label}}" on-selected="{{onDaySelected}}"></w5-calendar>
+        </div>
+    </template>
+
+    <script>
+        Polymer('w5-date-picker', {
+            
+            value : "",
+            state : "normal", // normal | disabled | info | hidden
+            label : "",
+            placeholder : "Enter text",
+            validator : "",
+            colspan : "12",
+            required : "false",
+            tabindex : "",
+
+            format: "dddd, MMMM Do YYYY", 
+            startDate: "",
+
+            ready : function() {
+                this.classList.add("col-md-"+this.colspan);
+                if (this.label == "")
+                    this.shadowRoot.querySelector(".control-label").classList.add('hide')
+            },
+            labelChanged : function () {
+                this.$.label.class = "show";
+                this.labelWidth = 3;
+                this.fieldWidth = 9;
+            },            
+            showCalendar: function() {
+                this.$.calendar.open();
+            },
+            onDaySelected: function(event, detail, sender) {
+                this.value = moment(detail.date).format(this.format);
+                this.$.calendar.close();
+            }
+        });
+    </script>
+</polymer-element>

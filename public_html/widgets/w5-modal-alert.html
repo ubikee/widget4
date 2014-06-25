@@ -1,0 +1,28 @@
+<!-- 
+    Document   : calendar
+    Author     : jeroldan
+-->
+<polymer-element name="w5-modal-alert" extends="w5-modal" attributes="action">
+
+    <template>
+        <w5-modal id="modal" text="{{text}}" >
+            <content></content>
+            <button type="button" class="btn btn-primary" on-click="{{close}}">OK</button>
+        </w5-modal>
+    </template>
+
+    <script>
+        Polymer('w5-modal-alert', {
+            action : null,
+            open : function () {
+                this.$.modal.open();
+            },
+            close : function () {
+                if (this.action != null) 
+                    actions[this.action]();
+                this.$.modal.close();
+            }
+        });
+    </script>
+
+</polymer-element>

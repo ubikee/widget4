@@ -1,0 +1,33 @@
+<polymer-element name="w5-accordion" attributes="name colspan selected">
+
+    <template>
+        <!--<div id="{{name}}" class="panel-group col-sm-{{colspan}} col-md-{{colspan}} col-lg-{{colspan}}">-->
+            <content select="w5-panel"></content>
+        <!--</div>-->
+    </template>
+
+    <script>
+
+        Polymer('w5-accordion', {
+            selected : "",
+            colspan  : "12",
+            ready    : function() {
+                this.classList.add("panel-group");
+                this.classList.add("col-sm-"+this.colspan);
+                this.classList.add("col-md-"+this.colspan);
+                this.classList.add("col-lg-"+this.colspan);
+
+
+                /*
+                var _selected = this.selected;
+                this.items = [].slice.call(this.children);
+                this.items.map(function(item) {
+                    if (item.id==_selected)
+                        item.classList.add('active');
+                });
+                */
+            }
+        });
+    </script>
+
+</polymer-element>

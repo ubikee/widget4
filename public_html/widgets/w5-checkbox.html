@@ -1,0 +1,34 @@
+<!-- 
+    Document   : checkbox
+    Created on : Oct 24, 2013, 12:01:19 PM
+    Author     : dnordonez
+-->
+<polymer-element name="w5-checkbox" attributes="label state colspan">
+    
+    <template>
+        <div id="checkbox" class="form-group">  
+            <label id="label" for="box" class="col-md-{{labelWidth}} control-label">{{label}}</label>
+            <div class="col-md-{{fieldWidth}}">
+                <content></content>
+            </div>
+        </div>
+    </template>
+    
+    <script>
+        Polymer('w5-checkbox',{
+            
+            label     : "",
+            state     : "normal", // normal | disabled
+            colspan   : "12",
+            
+            labelWidth : "0",
+            fieldWidth : "12",
+
+            labelChanged : function () {
+                this.$.label.class = "show";
+                this.labelWidth = 3;
+                this.fieldWidth = 9;
+            }
+        });
+   </script>
+</polymer-element>

@@ -1,0 +1,26 @@
+<!-- 
+    Document   : link
+    Created on : Oct 8, 2013, 12:01:19 PM
+    Author     : jeroldan
+-->
+
+<polymer-element name="w5-link" attributes="name text href target icon ">
+
+    <template>
+        <a href="{{href}}" id="{{name}}" title="{{name}}" target="{{target}}"><span class="glyphicon {{icon}}"></span> {{text}}</a>
+    </template>
+
+    <script>
+        Polymer('w5-link', {
+            name: "",
+            text: "Link",
+            icon: "",
+            href: null,
+            target: "_self", //_self (por defecto misma ventana o vacio), _blank (nueva ventana)
+            created: function() {
+                // Constructor like
+            }
+        });
+    </script>
+
+</polymer-element>

@@ -1,0 +1,48 @@
+<polymer-element name="w5-tabpanel" attributes="name colspan selected">
+
+    <template>
+        <style>
+            
+        </style>
+        <div class="col-md-{{colspan}}">
+            <ul class="nav nav-tabs" id="{{name}}">
+                <template repeat="{{item in items}}">
+                    <li class="{{active : selected==item.name}}" style="font-size:12px"><a rel="{{item.name}}" on-click="{{tab}}">{{item.text}}</a></li>
+                </template>
+            </ul>
+            <div class="tab-content">
+                <content select="w5-panel"></content>
+            </div>
+        </div>
+    </template>
+
+    <script>
+
+        Polymer('w5-tabpanel', {
+            collapsible: false,
+            items: [],
+            selected: "",
+            enteredView : function() {
+                var _selected = this.selected;
+                this.items = [].slice.call(this.children);
+                this.items.map(function(item) {
+                    item.classList.add('tab-pane');
+                    item.hideHeader();
+                    if (item.id==_selected)
+                        item.classList.add('active');
+                });
+            },
+            tab : function (e, detail, sender) {
+                this.selected = sender.rel; 
+                this.items.map(function(item){
+                    if (item.id == sender.rel) {
+                         item.classList.add('active');
+                     } else {
+                         item.classList.remove('active');
+                     }
+                });
+            }
+        });
+    </script>
+
+</polymer-element>

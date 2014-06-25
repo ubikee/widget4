@@ -1,0 +1,29 @@
+<polymer-element name="w5-paginator" attributes="">
+    <template>
+        <style>
+            :host > ul > li > a {
+                cursor : pointer;
+            }
+        </style>
+        <ul class="pagination" style="margin: 5px 0px;">
+            <button on-click="{{paginate}}"></button>
+            <template bind if="{{pages.count > 0}}">
+                <li class="{{disabled : prevDisabled}}"><a on-click="{{paginatePrev}}">&laquo;</a></li>
+                <template repeat="{{page,i in pages}}">
+                    <li class="{{ active : page.active }} "><a on-click="{{paginate}}">{{i}}</a></li>
+                </template>
+                <li class="{{disabled : nextDisabled}}"><a on-click="{{paginateNext}}">&raquo;</a></li>
+            </template>
+        </ul>
+    </template>
+    <script>
+        Polymer('w5-paginator', {
+            ready: function() {
+                console.log('w5-paginator')
+            },
+            paginate: function() {
+                this.fire('pagination', {})
+            }
+        });
+    </script>
+</polymer-element>
