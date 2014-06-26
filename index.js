@@ -51,8 +51,12 @@ router.route('/widgets/:widget_id')
 router.route('/doc/:widget_id')
 
 	.get(requestHandler('html',function(req,res, next) {
-		res.render('doc/'+req.params.widget_id+'.html');
+		res.render('doc/template.html', { name : req.params.widget_id });
 	}));
+
+app.use(router);
+app.listen(8080);
+console.log('Widget catalog site available on port 8080');
 
 
 function requestHandler(mediaType, fn) { 
@@ -63,7 +67,3 @@ function requestHandler(mediaType, fn) {
 			next();
 	}
 }
-
-app.use(router);
-app.listen(8080);
-console.log('Widget catalog site available on port 8080');

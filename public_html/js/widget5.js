@@ -27,11 +27,8 @@ function supportImports() {
  * @param id
  * @param elem
  */
-function CustomElement(src, elem) {
+function CustomElement(src, interface) {
 
-    var src = src;
-    var elem = elem;
-    
     var tagName = (function (src) {
         var _link = document.querySelector('link[href$="' + src + '"]');
         return _link.id === "" ? 'w5-javasaurio' : _link.id;
@@ -41,43 +38,38 @@ function CustomElement(src, elem) {
 
     proto.createdCallback = function(arg) {
         
-        console.log('created');
-        
-        var link = document.querySelector('link[href$="' + src + '"]').import;
-        var tmpl = link.querySelector('template');
+        // Obtain template through import link
+        var link    = document.querySelector('link[href$="' + src + '"]').import;
+        var tmpl    = link.querySelector('template');
         var content = document.importNode(tmpl.content, true);
+        
+        // Inject element instance
+        this.element = createElement(interface, attributesIn(this));
+        
+        // Populate content
 		content.populate(this.attributes);
 	
-        elem.shadowRoot = this.createShadowRoot();
-        elem.shadowRoot.appendChild(content);
+		// Insert content into shadow
+        var shadow = this.createShadowRoot();
+        shadow.appendChild(content);
         
-        // TODO : bindings
-        
-        if (elem.created)
-            elem.created();
+        if (this.element.created) element.created();
     };
 
     proto.attachedCallback = function(arg) {
-        console.log('attached');
-        if (elem.attached)
-            elem.attached();
+
     };
 
     proto.detachedCallback = function(arg) {
-        console.log('detached');
-        if (elem.detached)
-            elem.detached();
+
     };
 
     proto.attributeChangedCallback = function(attrName, oldVal, newVal) {
-        console.log('attribute change');
+		/**
         if (elem[attrName + 'Changed']) {
             elem[attrName + 'Changed'].call(elem, oldVal, newVal);
         }
-    };
-
-    proto.blink = function() {
-        elem.blink();
+        **/
     };
 
     return document.registerElement(tagName, {prototype: proto});
@@ -121,4 +113,12 @@ function attributesIn(node) {
 		attrs.push(node.attributes.item(i));
 	}
 	return attrs;
+}
+
+function createElement (interface, attributes) {
+	var elem = interface();
+	attributes.forEach( function (attribute) {
+		//TODO: add attribute setter
+	});
+	return elem;
 }
